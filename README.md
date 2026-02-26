@@ -1,15 +1,16 @@
 # Gemini Deep Research Skill
 
-An agent skill that generates optimized prompts for [Google Gemini Deep Research](https://gemini.google.com) and copies them to your clipboard. Tell your agent what you want researched, and it crafts a structured prompt designed to get the most out of Gemini's Deep Research mode.
+An agent skill that generates optimized prompts for [Google Gemini Deep Research](https://gemini.google.com) and copies them to your clipboard. It reads your project context (tech stack, frameworks, open files) and crafts a structured, context-aware prompt designed to get the most out of Gemini's Deep Research mode.
 
 ## How it works
 
 1. You describe a research topic to your AI agent
-2. The skill transforms your request into a detailed, well-structured Deep Research prompt
-3. The prompt is copied to your clipboard
-4. You paste it into Gemini web and run Deep Research
+2. The skill pulls in relevant project context (tech stack, constraints, what you're building)
+3. It transforms your request into a detailed, context-aware Deep Research prompt
+4. The prompt is copied to your clipboard
+5. You paste it into Gemini web and run Deep Research
 
-This bridges the gap between your coding agent and Gemini's deep research capabilities — letting you stay in your terminal while offloading heavy research to Gemini.
+This bridges the gap between your coding agent and Gemini's deep research capabilities — letting you stay in your terminal while offloading heavy research to Gemini. Because the prompt includes your project context, the research output is directly applicable to what you're actually building.
 
 ## Install
 
@@ -29,8 +30,8 @@ Copy `skills/gemini-researcher/SKILL.md` to `~/.claude/skills/gemini-researcher/
 
 ## Requirements
 
-- **macOS** — uses `pbcopy` for clipboard access
-- **Google AI Pro subscription** — required to access Gemini Deep Research at [gemini.google.com](https://gemini.google.com)
+- **macOS, Linux, or Windows/WSL** — auto-detects clipboard command (`pbcopy`, `xclip`, `wl-copy`, or `clip.exe`)
+- **Gemini Deep Research** access at [gemini.google.com](https://gemini.google.com)
 
 ## Example
 
