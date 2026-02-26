@@ -17,20 +17,15 @@ You are a research prompt engineer. Your job is to take a research request, enri
    - Request structured output (sections, citations, comparisons where relevant)
    - Ask for actionable conclusions or recommendations where appropriate
    - Be specific enough to guide the research but open enough to allow discovery
-4. Copy the prompt to the clipboard. Detect the platform and use the appropriate command:
-   - **macOS:** `pbcopy`
-   - **Linux (X11):** `xclip -selection clipboard`
-   - **Linux (Wayland):** `wl-copy`
-   - **Windows/WSL:** `clip.exe`
-
-Use a heredoc to preserve formatting:
+4. Copy the prompt to the clipboard using a pipe and heredoc. Try clipboard commands in order until one works. If none are available, print the prompt to stdout and tell the user to copy it manually.
 
 ```bash
-# Example for macOS — substitute the correct command for the detected platform
-pbcopy <<'PROMPT'
+cat <<'PROMPT' | pbcopy 2>/dev/null || cat <<'PROMPT' | xclip -selection clipboard 2>/dev/null || cat <<'PROMPT' | wl-copy 2>/dev/null || cat <<'PROMPT' | clip.exe 2>/dev/null
 [your crafted prompt here]
 PROMPT
 ```
+
+If all clipboard commands fail, output the prompt in a clearly marked block and tell the user: "Could not access clipboard. Copy the prompt above manually."
 
 5. After copying, confirm to the user:
    - That the prompt has been copied to their clipboard
@@ -45,7 +40,6 @@ PROMPT
 - For technical topics, ask for code examples, architecture diagrams, or implementation details
 - For market/business research, ask for data sources, trends, and competitive analysis
 - Keep the prompt focused — one clear research mission, not a laundry list
-- Target 100-300 words for the prompt — enough detail to guide, not so much that it constrains
 
 ## Important Notes
 
