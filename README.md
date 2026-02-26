@@ -1,16 +1,33 @@
 # Gemini Deep Research Skill
 
-An agent skill that generates optimized prompts for [Google Gemini Deep Research](https://gemini.google.com) and copies them to your clipboard. It reads your project context (tech stack, frameworks, open files) and crafts a structured, context-aware prompt designed to get the most out of Gemini's Deep Research mode.
+Turn a one-liner into an expert research prompt. Ask your coding agent what you need researched, get a structured prompt on your clipboard, paste into Gemini, get results grounded in your actual project.
 
-## How it works
+## Why not just ask Gemini directly?
 
-1. You describe a research topic to your AI agent
-2. The skill pulls in relevant project context (tech stack, constraints, what you're building)
-3. It transforms your request into a detailed, context-aware Deep Research prompt
-4. The prompt is copied to your clipboard
-5. You paste it into Gemini web and run Deep Research
+You can — but you'll write something like:
 
-This bridges the gap between your coding agent and Gemini's deep research capabilities — letting you stay in your terminal while offloading heavy research to Gemini. Because the prompt includes your project context, the research output is directly applicable to what you're actually building.
+> "best payment provider for my app"
+
+And get a generic listicle. This skill takes that same request, pulls in your project context (React + Node, already using Stripe for subscriptions, need marketplace payouts, PCI compliance matters), and generates this:
+
+<details>
+<summary><strong>See generated prompt</strong></summary>
+
+> Research the current landscape of payment processing solutions suitable for a web application with the following technical context: the application is built with React and Node.js, already integrates Stripe for subscription billing, and now needs to add marketplace-style payouts to multiple sellers.
+>
+> Investigate the following angles:
+>
+> 1. Extending Stripe Connect vs. adopting a dedicated marketplace payment platform (e.g., Paypal for Marketplaces, Adyen for Platforms, Mangopay, Trolley). For each, cover: onboarding complexity for sellers, payout flexibility (scheduling, currency, method), fraud and dispute handling, and PCI compliance implications.
+> 2. Evaluate solutions that can coexist with an existing Stripe subscription integration without requiring a full migration — hybrid setups where subscriptions stay on Stripe but payouts go through another provider.
+> 3. Pricing models and fee structures for a marketplace processing $50K-500K/month in gross merchandise volume across 50-200 sellers. Include both percentage-based and flat-fee tiers.
+> 4. Developer experience: quality of SDKs and APIs for Node.js, webhook reliability, sandbox/testing environments, and documentation quality.
+> 5. Regulatory considerations for marketplace payments in the US and EU — money transmission licensing, KYC/AML requirements, and which providers handle this on your behalf vs. requiring you to manage it.
+>
+> Deliver the output as a structured markdown report with a recommendation matrix comparing the top 5 options across the dimensions above. Include specific API endpoint examples where relevant and link to official documentation. Conclude with a ranked recommendation based on the described use case.
+
+</details>
+
+That prompt gets Gemini to produce a 15-page report tailored to your exact situation, not a generic overview.
 
 ## Install
 
@@ -18,30 +35,25 @@ This bridges the gap between your coding agent and Gemini's deep research capabi
 npx skills add mayrsascha/gemini-researcher-skill
 ```
 
-Or install for a specific agent:
-
-```bash
-npx skills add mayrsascha/gemini-researcher-skill -a claude-code
-```
+Works with Claude Code, Cursor, GitHub Copilot, Cline, and [18+ other agents](https://skills.sh).
 
 ### Manual install (Claude Code)
 
 Copy `skills/gemini-researcher/SKILL.md` to `~/.claude/skills/gemini-researcher/SKILL.md`.
 
+## How it works
+
+1. You describe what you need researched
+2. The skill reads your project context — tech stack, frameworks, constraints, what you're building
+3. It crafts a detailed Deep Research prompt with clear objectives, investigation angles, and output format
+4. The prompt is copied to your clipboard (macOS, Linux, Windows/WSL)
+5. You paste into [gemini.google.com](https://gemini.google.com) and hit "Deep Research"
+
+If no clipboard tool is available, it prints the prompt to stdout for manual copying.
+
 ## Requirements
 
-- **macOS, Linux, or Windows/WSL** — auto-detects clipboard command (`pbcopy`, `xclip`, `wl-copy`, or `clip.exe`)
-- **Gemini Deep Research** access at [gemini.google.com](https://gemini.google.com)
-
-## Example
-
-> "Research the current state of WebAssembly for server-side applications — performance benchmarks, production adoption, and comparison with native binaries"
-
-The skill generates a ~200 word structured prompt with clear objectives, specific investigation angles, and output format requirements, then copies it to your clipboard ready to paste into Gemini.
-
-## Compatible agents
-
-Works with any agent that supports the [agent skills](https://skills.sh) standard, including Claude Code, Cursor, GitHub Copilot, Cline, and others.
+- [Gemini Deep Research](https://gemini.google.com) access
 
 ## License
 
